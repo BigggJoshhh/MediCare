@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "924736630200",
+    "firebase_url": "https://ande-ca2-f3d28-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "ande-ca2-f3d28",
+    "storage_bucket": "ande-ca2-f3d28.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924736630200:android:fc418ec6d5816a703e334d",
+        "android_client_info": {
+          "package_name": "com.example.medicare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWNkivbjyzn46m_oKuruDWZcD2FE_UaHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
