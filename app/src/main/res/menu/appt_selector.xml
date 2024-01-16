@@ -1,0 +1,6 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/appointment" android:state_checked="true"
+        android:title="appt" />
+    <item android:drawable="@drawable/appointment"
+        android:title="appt" />
+</selector>
