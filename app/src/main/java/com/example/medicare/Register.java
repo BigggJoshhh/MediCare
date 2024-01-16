@@ -43,6 +43,8 @@ public class Register extends AppCompatActivity {
         userDetails.put("username", user.getDisplayName());
         userDetails.put("email", user.getEmail());
         userDetails.put("phone_number", phone_number);
+        userDetails.put("notification", true);
+        userDetails.put("language", "English");
         // Add other details you want to store
 
         // Add a new document with a generated ID

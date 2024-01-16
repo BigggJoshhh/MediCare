@@ -15,5 +15,6 @@
     <string name="hello_home_fragment">Hello home fragment</string>
     <string name="hello_appt_fragment">Hello appt fragment</string>
     <string name="hello_cal_fragment">Hello cal fragment</string>
+    <string name="logout">Logout</string>
 
 </resources>

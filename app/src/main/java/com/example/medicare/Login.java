@@ -33,9 +33,10 @@ public class Login extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         if (currentUser != null){
-//            Intent intent = new Intent(getApplicationContext(), Main.class);
-//            startActivity(intent);
-//            finish();
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+
             String name = currentUser.getDisplayName();
             String email = currentUser.getEmail();
             Uri photoUrl = currentUser.getPhotoUrl();
@@ -102,7 +103,7 @@ public class Login extends AppCompatActivity {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     Toast.makeText(getApplicationContext(), "Authentication sucess.",
                                             Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), Main.class);
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
