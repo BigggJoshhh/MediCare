@@ -11,6 +11,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="phone_number">Phone Number</string>
     <string name="not_a_user_login">Not a user? Login</string>
+    <string name="contentDescription">Loading Image</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_home_fragment">Hello home fragment</string>
     <string name="hello_appt_fragment">Hello appt fragment</string>
