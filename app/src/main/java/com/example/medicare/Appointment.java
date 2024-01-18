@@ -1,47 +1,94 @@
 package com.example.medicare;
 
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
+
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Appointment {
-    private String type;
-    private String date;
-    private String time;
-    private String address;
+    private DocumentReference user;
+    private DocumentReference doctor;
+    private String service ;
+    private String others;
+    private Timestamp datetime;
+    private String location;
 
-    public String getType() {
-        return type;
+    public Appointment(DocumentReference user, DocumentReference doctor, String service, String others, Timestamp datetime, String location) {
+        this.user = user;
+        this.doctor = doctor;
+        this.service = service;
+        this.others = others;
+        this.datetime = datetime;
+        this.location = location;
     }
 
-    public Appointment(String type, String date, String time, String address) {
-        this.type = type;
-        this.date = date;
-        this.time = time;
-        this.address = address;
+    public Appointment() {
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public DocumentReference getUser() {
+        return user;
     }
 
-    public String getDate() {
-        return date;
+    public DocumentReference setUser(DocumentReference user) {
+        return this.user = user;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public DocumentReference getDoctor() {
+        return doctor;
     }
 
-    public String getTime() {
-        return time;
+    public DocumentReference setDoctor(DocumentReference doctor) {
+        return this.doctor = doctor;
+    }
+    public String getService() {
+        return service;
+    }
+    public void setService(String service) {
+        this.service = service;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public String getOthers() {
+        return others;
+    }
+    public void setOthers(String others) {
+        this.others = others;
     }
 
-    public String getAddress() {
-        return address;
+    public Timestamp getDateTime() {
+        return datetime;
+    }
+    public void setDateTime(Timestamp datetime) {
+        this.datetime = datetime;
+    }
+    public String getLocation() {
+        return location;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLocation(String location) {
+        this.location = location;
     }
+
+    public String getFormattedDate() {
+        if (datetime != null) {
+            Date date = datetime.toDate(); // Convert Timestamp to Date
+            // Define the format you want. For example: "dd MMM yyyy"
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+            return sdf.format(date);
+        }
+        return "";
+    }
+
+    public String getFormattedTime() {
+        if (datetime != null) {
+            Date date = datetime.toDate(); // Convert Timestamp to Date
+            // Define the format you want. For example: "hh:mm a"
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+            return sdf.format(date);
+        }
+        return "";
+    }
+
 }

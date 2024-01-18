@@ -4,62 +4,56 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import java.util.ArrayList;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.List;
 
 public class AppointmentFragment extends Fragment {
 
     TabLayout tabLayout;
     ViewPager2 viewPager;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    RecyclerView appointmentsRecyclerView;
+    AppointmentAdapter appointmentAdapter;
+    List<Appointment> appointmentsList = new ArrayList<>();
 
     public AppointmentFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static AppointmentFragment newInstance(String param1, String param2) {
-        AppointmentFragment fragment = new AppointmentFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_appointments, container, false);
-
-        // Initialize the TabLayout and ViewPager2
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
+        appointmentsRecyclerView = view.findViewById(R.id.appointmentsRecyclerView);
 
+        setupTabLayoutAndViewPager();
+        setupRecyclerView();
+
+        fetchAppointmentsFromFirestore();
+
+        return view;
+    }
+
+    private void setupTabLayoutAndViewPager() {
         // Initialize array list
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("Upcoming");
@@ -81,8 +75,30 @@ public class AppointmentFragment extends Fragment {
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(arrayList.get(position))
         ).attach();
+    }
 
-        return view;
+    private void setupRecyclerView() {
+        appointmentAdapter = new AppointmentAdapter(appointmentsList);
+        appointmentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        appointmentsRecyclerView.setAdapter(appointmentAdapter);
+    }
+
+    private void fetchAppointmentsFromFirestore() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("appointments")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        appointmentsList.clear();
+                        for (DocumentSnapshot document : task.getResult()) {
+                            Appointment appointment = document.toObject(Appointment.class);
+                            appointmentsList.add(appointment);
+                        }
+                        appointmentAdapter.notifyDataSetChanged();
+                    } else {
+                        Log.d("Firestore Error", "Error getting documents: ", task.getException());
+                    }
+                });
     }
 
     private static class MainAdapter extends FragmentStateAdapter {

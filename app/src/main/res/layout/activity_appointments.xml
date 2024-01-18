@@ -55,108 +55,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/appointmentCard"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/appointmentsRecyclerView"
         android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="0dp"
-        app:cardPreventCornerOverlap="false"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@id/tab_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!-- ImageView -->
-            <ImageView
-                android:id="@+id/img"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/appointment"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <!-- Heading TextView -->
-            <TextView
-                android:id="@+id/headingTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Medical Consultation"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/img"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <!-- Date TextView with Icon -->
-            <TextView
-                android:id="@+id/dateTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/calendar24"
-                android:drawablePadding="8dp"
-                android:text="16 Nov 23"
-                app:layout_constraintStart_toEndOf="@id/img"
-                app:layout_constraintTop_toBottomOf="@id/headingTextView"
-                app:layout_constraintEnd_toStartOf="@+id/timeTextView"
-                app:layout_constraintBottom_toTopOf="@id/locationTextView"
-                app:layout_constraintHorizontal_chainStyle="packed" />
-
-            <!-- Time TextView with Icon -->
-            <TextView
-                android:id="@+id/timeTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/time24"
-                android:drawablePadding="8dp"
-                android:text="07:00 PM"
-                app:layout_constraintStart_toEndOf="@id/dateTextView"
-                app:layout_constraintTop_toTopOf="@id/dateTextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/dateTextView" />
-
-            <!-- Location TextView with Icon -->
-            <TextView
-                android:id="@+id/locationTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/location24"
-                android:drawablePadding="8dp"
-                android:text="1 Street Boulevard, #02-25 Cardigan Medical Centre"
-                app:layout_constraintStart_toEndOf="@id/img"
-                app:layout_constraintTop_toBottomOf="@id/timeTextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-            <View
-                android:id="@+id/spacer"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/blackLine"
-                app:layout_constraintTop_toBottomOf="@id/locationTextView"
-                app:layout_constraintVertical_bias="1.0" /> <!-- Bias set to 1.0 to push to the bottom -->
-
-            <!-- Black Line at the bottom -->
-            <View
-                android:id="@+id/blackLine"
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:background="@android:color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
