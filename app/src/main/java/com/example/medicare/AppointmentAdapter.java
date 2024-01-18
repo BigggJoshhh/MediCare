@@ -1,5 +1,6 @@
 package com.example.medicare;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import java.util.List;
 public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.AppointmentViewHolder> {
 
     private final List<Appointment> appointmentsList;
+
 
     public AppointmentAdapter(List<Appointment> appointmentsList) {
         this.appointmentsList = appointmentsList;

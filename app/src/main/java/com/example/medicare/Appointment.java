@@ -13,14 +13,16 @@ public class Appointment {
     private DocumentReference doctor;
     private String service ;
     private String others;
+    private String status;
     private Timestamp datetime;
     private String location;
 
-    public Appointment(DocumentReference user, DocumentReference doctor, String service, String others, Timestamp datetime, String location) {
+    public Appointment(DocumentReference user, DocumentReference doctor, String service, String others, String status, Timestamp datetime, String location) {
         this.user = user;
         this.doctor = doctor;
         this.service = service;
         this.others = others;
+        this.status = status;
         this.datetime = datetime;
         this.location = location;
     }
@@ -56,6 +58,8 @@ public class Appointment {
     public void setOthers(String others) {
         this.others = others;
     }
+    public String getStatus() { return status;}
+    public void setStatus(String status) { this.status = status; }
 
     public Timestamp getDateTime() {
         return datetime;

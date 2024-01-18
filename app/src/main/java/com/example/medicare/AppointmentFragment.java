@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -31,6 +30,10 @@ public class AppointmentFragment extends Fragment {
     RecyclerView appointmentsRecyclerView;
     AppointmentAdapter appointmentAdapter;
     List<Appointment> appointmentsList = new ArrayList<>();
+     List<Appointment> upcomingAppointments = new ArrayList<>();
+     List<Appointment> missedAppointments = new ArrayList<>();
+     List<Appointment> openAppointments = new ArrayList<>();
+     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
 
     public AppointmentFragment() {
         // Required empty public constructor
@@ -85,16 +88,39 @@ public class AppointmentFragment extends Fragment {
 
     private void fetchAppointmentsFromFirestore() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("appointments")
+        db.collection("appointment")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        appointmentsList.clear();
+                        // Clear all lists before adding new items
+                        upcomingAppointments.clear();
+                        missedAppointments.clear();
+                        openAppointments.clear();
+
                         for (DocumentSnapshot document : task.getResult()) {
                             Appointment appointment = document.toObject(Appointment.class);
-                            appointmentsList.add(appointment);
+                            if (appointment != null) {
+                                switch (appointment.getStatus()) {
+                                    case "upcoming":
+                                        upcomingAppointments.add(appointment);
+                                        break;
+                                    case "missed":
+                                        missedAppointments.add(appointment);
+                                        break;
+                                    case "open":
+                                        openAppointments.add(appointment);
+                                        break;
+                                }
+                            }
                         }
-                        appointmentAdapter.notifyDataSetChanged();
+                        if (fragmentArrayList.size() > 2) {
+                            MainFragment upcomingFragment = (MainFragment) fragmentArrayList.get(0);
+                            MainFragment missedFragment = (MainFragment) fragmentArrayList.get(1);
+                            MainFragment openFragment = (MainFragment) fragmentArrayList.get(2);
+                            upcomingFragment.updateAppointments(upcomingAppointments);
+                            missedFragment.updateAppointments(missedAppointments);
+                            openFragment.updateAppointments(openAppointments);
+                        }
                     } else {
                         Log.d("Firestore Error", "Error getting documents: ", task.getException());
                     }
