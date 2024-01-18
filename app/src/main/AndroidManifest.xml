@@ -18,24 +18,25 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
 
         <activity
             android:name=".HomeActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".Register" />
         <activity android:name=".Login" />
         <activity
-            android:name=".Appointment"
-            android:exported="true"></activity>
+            android:name=".AppointmentFragment"
+            android:exported="true">
+        </activity>
 
 
     </application>
