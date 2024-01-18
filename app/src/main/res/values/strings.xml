@@ -6,7 +6,7 @@
     <string name="username">Username</string>
     <string name="create">Create</string>
     <string name="repeat_password">Repeat Password</string>
-    <string name="already_a_user_login">Already a user? Login</string>
+    <string name="already_a_user_login">Already a user? Register</string>
     <string name="logo">Logo\n</string>
     <string name="sign_up">Sign Up</string>
     <string name="phone_number">Phone Number</string>
