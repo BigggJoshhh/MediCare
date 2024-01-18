@@ -16,6 +16,15 @@
         android:theme="@style/Theme.MediCare"
         tools:targetApi="34">
         <activity
+            android:name=".LanguageSelect"
+            android:exported="false" />
+        <activity
+            android:name=".EditProfile"
+            android:exported="true" />
+        <activity
+            android:name=".Settings"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -23,22 +32,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".HomeActivity"
-            android:exported="true">
-        </activity>
-
+            android:exported="true" />
         <activity android:name=".Register" />
         <activity android:name=".Login" />
-        <activity
-            android:name=".AppointmentFragment"
-            android:exported="true">
-        </activity>
-
-
     </application>
 
 </manifest>

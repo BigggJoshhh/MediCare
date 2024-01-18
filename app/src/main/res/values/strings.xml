@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MediCare</string>
     <string name="login_button">Login</string>
-    <string name="email">Email\n</string>
+    <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="create">Create</string>
@@ -20,5 +20,14 @@
     <string name="hello_appt_fragment">Hello appt fragment</string>
     <string name="hello_cal_fragment">Hello cal fragment</string>
     <string name="logout">Logout</string>
+    <string name="hello">Hello,</string>
+    <string name="male">Male</string>
+    <string name="female">Female\n</string>
+    <string name="phone">Phone</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="cancel">cancel</string>
+    <string name="save">save</string>
+    <string name="name">Name\n</string>
+    <string name="gender">Gender</string>
 
 </resources>
