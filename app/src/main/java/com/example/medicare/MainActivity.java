@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = new CalendarFragment();
                             break;
                         case R.id.navigation_appt:
-                            selectedFragment = new AppointmentFragment();
+                            displayFragment(new AppointmentFragment());
                             break;
                     }
 
@@ -51,4 +51,9 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             };
+    private void displayFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment) // Use your actual container ID
+                .commit();
+    }
 }

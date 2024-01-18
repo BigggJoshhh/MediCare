@@ -2,20 +2,32 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="Appointment">
+        <State />
+      </entry>
+      <entry key="AppointmentFragment">
+        <State />
+      </entry>
+      <entry key="Login">
+        <State />
+      </entry>
+      <entry key="MainActivity">
+        <State />
+      </entry>
       <entry key="app">
         <State>
-          <targetSelectedWithDropDown>
+          <runningDeviceTargetSelectedWithDropDown>
             <Target>
-              <type value="QUICK_BOOT_TARGET" />
+              <type value="RUNNING_DEVICE_TARGET" />
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\josep\.android\avd\New_Phone.avd" />
+                  <value value="C:\Users\chuaj\.android\avd\FirstProject.avd" />
                 </Key>
               </deviceKey>
             </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-01-15T06:16:02.739228500Z" />
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-01-18T02:44:09.435770100Z" />
         </State>
       </entry>
     </value>

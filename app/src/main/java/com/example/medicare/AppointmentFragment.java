@@ -2,18 +2,21 @@ package com.example.medicare;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import androidx.viewpager2.widget.ViewPager2;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AppointmentFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AppointmentFragment extends Fragment {
+
+    TabLayout tabLayout;
+    ViewPager2 viewPager;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,14 +31,6 @@ public class AppointmentFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AppointmentFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static AppointmentFragment newInstance(String param1, String param2) {
         AppointmentFragment fragment = new AppointmentFragment();
@@ -59,6 +54,57 @@ public class AppointmentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_appointment, container, false);
+        View view = inflater.inflate(R.layout.activity_appointments, container, false);
+
+        // Initialize the TabLayout and ViewPager2
+        tabLayout = view.findViewById(R.id.tab_layout);
+        viewPager = view.findViewById(R.id.view_pager);
+
+        // Initialize array list
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("Upcoming");
+        arrayList.add("Missed");
+        arrayList.add("Open");
+
+        // Initialize adapter
+        MainAdapter adapter = new MainAdapter(this);
+        for (String title : arrayList) {
+            MainFragment fragment = new MainFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("title", title);
+            fragment.setArguments(bundle);
+            adapter.addFragment(fragment);
+        }
+        viewPager.setAdapter(adapter);
+
+        // Connect TabLayout and ViewPager2
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> tab.setText(arrayList.get(position))
+        ).attach();
+
+        return view;
+    }
+
+    private static class MainAdapter extends FragmentStateAdapter {
+        private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+
+        public MainAdapter(Fragment fragment) {
+            super(fragment.getChildFragmentManager(), fragment.getLifecycle());
+        }
+
+        public void addFragment(Fragment fragment) {
+            fragmentArrayList.add(fragment);
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            return fragmentArrayList.get(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return fragmentArrayList.size();
+        }
     }
 }
