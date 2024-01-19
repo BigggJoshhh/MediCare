@@ -1,21 +1,23 @@
 package com.example.medicare;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
-import android.content.Context;
 
 public class RecylerItemArrayAdapter extends RecyclerView.Adapter<RecylerItemArrayAdapter.MyViewHolder> {
 
-    private ArrayList<RecyclerItem> appointments;
-    private Context context;
+    private final ArrayList<RecyclerItem> appointments;
+    private final Context context;
 
     public RecylerItemArrayAdapter(ArrayList<RecyclerItem> appointments, Context context) {
         this.appointments = appointments;
@@ -35,11 +37,11 @@ public class RecylerItemArrayAdapter extends RecyclerView.Adapter<RecylerItemArr
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.viewType.setText(appointments.get(position).getType());
-        holder.viewDate.setText(appointments.get(position).getDate());
-        holder.viewTime.setText(appointments.get(position).getTime());
+        holder.viewType.setText(appointments.get(position).getService());
+        holder.viewDate.setText(appointments.get(position).getFormattedDate());
+        holder.viewTime.setText(appointments.get(position).getFormattedTime());
         holder.viewAddress.setText(appointments.get(position).getAddress());
-        Drawable drawable = ResourcesCompat.getDrawable(context.getResources(),R.drawable.appointment, null);
+        Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.appointment, null);
         holder.viewImage.setImageDrawable(drawable);
     }
 
@@ -60,11 +62,11 @@ public class RecylerItemArrayAdapter extends RecyclerView.Adapter<RecylerItemArr
 
     //RecyclerView View Holder
     class MyViewHolder extends RecyclerView.ViewHolder {
-        private ImageView viewImage;
-        private TextView viewType;
-        private TextView viewDate;
-        private TextView viewTime;
-        private TextView viewAddress;
+        private final ImageView viewImage;
+        private final TextView viewType;
+        private final TextView viewDate;
+        private final TextView viewTime;
+        private final TextView viewAddress;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
