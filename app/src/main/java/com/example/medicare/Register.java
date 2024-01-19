@@ -125,7 +125,7 @@ public class Register extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
 
-                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                    FirebaseUser user = mAuth.getInstance().getCurrentUser();
 
                                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                             .setDisplayName(username)
