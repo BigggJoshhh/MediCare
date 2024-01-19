@@ -2,10 +2,12 @@ package com.example.medicare;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -100,9 +102,16 @@ public class EditProfile extends AppCompatActivity {
                     UserDoc userDoc = new UserDoc(currentUser.getUid());
                     userDoc.updateUserProfile(updates).addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-
+                            Toast.makeText(getApplicationContext(), "Updated Profile!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(EditProfile.this, Settings.class);
+                            startActivity(intent);
+                            finish();
                         } else {
-                            // Handle failure in update
+                            Toast.makeText(getApplicationContext(), "Failed to Update Profile!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(EditProfile.this, LanguageSelect.class);
+                            startActivity(intent);
+                            finish();
+
                         }
                     });
                 }

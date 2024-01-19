@@ -8,19 +8,22 @@
     tools:context=".EditProfile">
 
     <!-- Profile image -->
+
+    <!-- Edit Profile Title -->
+
     <ImageView
         android:id="@+id/profile_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="108dp"
         android:background="@drawable/rounded_edges"
         android:contentDescription="Profile Edit"
         android:src="@drawable/calendar32"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Edit Profile Title -->
     <TextView
         android:id="@+id/edit_profile_title"
         android:layout_width="wrap_content"
@@ -144,7 +147,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
+                    android:gravity="center"
                     android:paddingRight="10dp"
                     android:text="@string/gender"
                     android:textSize="20sp" />
@@ -152,20 +155,19 @@
                 <RadioGroup
                     android:id="@+id/gender_group"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/gender_male"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="@string/male" />
 
                     <RadioButton
                         android:id="@+id/gender_female"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="@string/female" />
 
                 </RadioGroup>
@@ -189,7 +191,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="@color/cancel"
                 android:text="@string/cancel" />
 
             <!-- Save Button -->
