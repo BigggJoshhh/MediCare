@@ -1,47 +1,90 @@
 package com.example.medicare;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Appointment {
-    private String type;
-    private String date;
-    private String time;
-    private String address;
+    private String user;
+    private String doctor;
+    private String service;
+    private Date date;
+    private String location;
+    private String others;
+    private String status;
 
-    public String getType() {
-        return type;
-    }
-
-    public Appointment(String type, String date, String time, String address) {
-        this.type = type;
+    public Appointment(String user, String doctor, String service, Date date, String location, String others, String status) {
+        this.user = user;
+        this.doctor = doctor;
+        this.service = service;
         this.date = date;
-        this.time = time;
-        this.address = address;
+        this.location = location;
+        this.others = others;
+        this.status = status;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public String getUser() {
+        return user;
     }
 
-    public String getDate() {
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(String doctor) {
+        this.doctor = doctor;
+    }
+
+    public String getService() {
+        return service;
+    }
+
+    public void setService(String service) {
+        this.service = service;
+    }
+
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public String getTime() {
-        return time;
+    public String getFormattedDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+        return sdf.format(this.date);
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public String getFormattedTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+        return sdf.format(this.date);
     }
 
-    public String getAddress() {
-        return address;
+    public String getLocation() {
+        return location;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getOthers() {
+        return others;
+    }
+
+    public void setOthers(String others) {
+        this.others = others;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

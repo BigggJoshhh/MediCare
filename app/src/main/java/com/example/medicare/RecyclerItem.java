@@ -1,28 +1,28 @@
 package com.example.medicare;
 
 public class RecyclerItem {
-    private String type;
-    private String date;
-    private String time;
-    private String address;
+    private final String service;
+    private final String formattedDate;
+    private final String formattedTime;
+    private final String address;
 
-    public RecyclerItem(String type, String date, String time, String address) {
-        this.type = type;
-        this.date = date;
-        this.time = time;
+    public RecyclerItem(String service, String formattedDate, String formattedTime, String address) {
+        this.service = service;
+        this.formattedDate = formattedDate;
+        this.formattedTime = formattedTime;
         this.address = address;
     }
 
-    public String getType() {
-        return type;
+    public String getService() {
+        return service;
     }
 
-    public String getDate() {
-        return date;
+    public String getFormattedDate() {
+        return formattedDate;
     }
 
-    public String getTime() {
-        return time;
+    public String getFormattedTime() {
+        return formattedTime;
     }
 
     public String getAddress() {
