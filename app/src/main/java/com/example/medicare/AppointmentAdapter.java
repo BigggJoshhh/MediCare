@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.AppointmentViewHolder> {
@@ -15,7 +17,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
 
     public AppointmentAdapter(List<Appointment> appointmentsList) {
-        this.appointmentsList = appointmentsList;
+        this.appointmentsList = appointmentsList != null ? appointmentsList : new ArrayList<>();
     }
 
     @NonNull

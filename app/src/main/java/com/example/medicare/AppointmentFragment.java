@@ -1,5 +1,6 @@
 package com.example.medicare;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,77 +15,55 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import java.util.ArrayList;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.HashMap;
 import java.util.List;
 
 public class AppointmentFragment extends Fragment {
-
     TabLayout tabLayout;
     ViewPager2 viewPager;
-    RecyclerView appointmentsRecyclerView;
-    AppointmentAdapter appointmentAdapter;
-    List<Appointment> appointmentsList = new ArrayList<>();
-     List<Appointment> upcomingAppointments = new ArrayList<>();
-     List<Appointment> missedAppointments = new ArrayList<>();
-     List<Appointment> openAppointments = new ArrayList<>();
-     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+    MainAdapter adapter;
+    ArrayList<MainFragment> fragments = new ArrayList<>();
 
-    public AppointmentFragment() {
-        // Required empty public constructor
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_appointments, container, false);
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
-        appointmentsRecyclerView = view.findViewById(R.id.appointmentsRecyclerView);
-
-        setupTabLayoutAndViewPager();
-        setupRecyclerView();
 
         fetchAppointmentsFromFirestore();
 
         return view;
     }
+    private void setupViewPager(ArrayList<Appointment> upcomingAppointments,
+                               ArrayList<Appointment> missedAppointments,
+                               ArrayList<Appointment> openAppointments) {
+        fragments.add(MainFragment.newInstance(upcomingAppointments)); // Upcoming
+        fragments.add(MainFragment.newInstance(missedAppointments));   // Missed
+        fragments.add(MainFragment.newInstance(openAppointments));     // Open
 
-    private void setupTabLayoutAndViewPager() {
-        // Initialize array list
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("Upcoming");
-        arrayList.add("Missed");
-        arrayList.add("Open");
-
-        // Initialize adapter
-        MainAdapter adapter = new MainAdapter(this);
-        for (String title : arrayList) {
-            MainFragment fragment = new MainFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("title", title);
-            fragment.setArguments(bundle);
-            adapter.addFragment(fragment);
-        }
+        adapter = new MainAdapter(this, fragments);
         viewPager.setAdapter(adapter);
-
-        // Connect TabLayout and ViewPager2
         new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> tab.setText(arrayList.get(position))
+                (tab, position) -> tab.setText(adapter.getPageTitle(position))
         ).attach();
     }
 
-    private void setupRecyclerView() {
-        appointmentAdapter = new AppointmentAdapter(appointmentsList);
-        appointmentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        appointmentsRecyclerView.setAdapter(appointmentAdapter);
-    }
 
     private void fetchAppointmentsFromFirestore() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -92,61 +71,73 @@ public class AppointmentFragment extends Fragment {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        // Clear all lists before adding new items
-                        upcomingAppointments.clear();
-                        missedAppointments.clear();
-                        openAppointments.clear();
+                        // Separate the appointments based on their status
+                        ArrayList<Appointment> upcomingAppointments = new ArrayList<>();
+                        ArrayList<Appointment> missedAppointments = new ArrayList<>();
+                        ArrayList<Appointment> openAppointments = new ArrayList<>();
 
-                        for (DocumentSnapshot document : task.getResult()) {
-                            Appointment appointment = document.toObject(Appointment.class);
-                            if (appointment != null) {
-                                switch (appointment.getStatus()) {
-                                    case "upcoming":
-                                        upcomingAppointments.add(appointment);
-                                        break;
-                                    case "missed":
-                                        missedAppointments.add(appointment);
-                                        break;
-                                    case "open":
-                                        openAppointments.add(appointment);
-                                        break;
-                                }
-                            }
-                        }
-                        if (fragmentArrayList.size() > 2) {
-                            MainFragment upcomingFragment = (MainFragment) fragmentArrayList.get(0);
-                            MainFragment missedFragment = (MainFragment) fragmentArrayList.get(1);
-                            MainFragment openFragment = (MainFragment) fragmentArrayList.get(2);
-                            upcomingFragment.updateAppointments(upcomingAppointments);
-                            missedFragment.updateAppointments(missedAppointments);
-                            openFragment.updateAppointments(openAppointments);
-                        }
+                        // Process the fetched appointments
+                        processFetchedAppointments(task.getResult(),
+                                upcomingAppointments, missedAppointments, openAppointments);
+
+                        // Now that we have the data, set up the ViewPager with the correct fragments
+                        setupViewPager(upcomingAppointments, missedAppointments, openAppointments);
                     } else {
                         Log.d("Firestore Error", "Error getting documents: ", task.getException());
                     }
                 });
     }
 
-    private static class MainAdapter extends FragmentStateAdapter {
-        private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
-
-        public MainAdapter(Fragment fragment) {
-            super(fragment.getChildFragmentManager(), fragment.getLifecycle());
+    private void processFetchedAppointments(QuerySnapshot result,
+                                            ArrayList<Appointment> upcomingAppointments,
+                                            ArrayList<Appointment> missedAppointments,
+                                            ArrayList<Appointment> openAppointments) {
+        for (DocumentSnapshot document : result) {
+            Appointment appointment = document.toObject(Appointment.class);
+            if (appointment != null) {
+                switch (appointment.getStatus()) {
+                    case "upcoming":
+                        upcomingAppointments.add(appointment);
+                        break;
+                    case "missed":
+                        missedAppointments.add(appointment);
+                        break;
+                    case "open":
+                        openAppointments.add(appointment);
+                        break;
+                    default:
+                        Log.d("AppointmentStatus", "Unknown status for appointment: " + appointment.getService());
+                        break;
+                }
+            }
         }
+        Log.d("UpdateData", "Upcoming: " + upcomingAppointments.size());
+        Log.d("UpdateData", "Missed: " + missedAppointments.size());
+        Log.d("UpdateData", "Open: " + openAppointments.size());
+    }
 
-        public void addFragment(Fragment fragment) {
-            fragmentArrayList.add(fragment);
+    private static class MainAdapter extends FragmentStateAdapter {
+        private final ArrayList<MainFragment> fragments;
+        private final String[] tabTitles = new String[]{"Upcoming", "Missed", "Open"};
+
+        MainAdapter(Fragment fragment, ArrayList<MainFragment> fragments) {
+            super(fragment.getChildFragmentManager(), fragment.getLifecycle());
+            this.fragments = fragments;
         }
 
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            return fragmentArrayList.get(position);
+            return fragments.get(position);
         }
 
         @Override
         public int getItemCount() {
-            return fragmentArrayList.size();
+            return fragments.size();
+        }
+
+        CharSequence getPageTitle(int position) {
+            return tabTitles[position];
         }
     }
 }
