@@ -14,10 +14,15 @@ import java.util.List;
 public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.AppointmentViewHolder> {
 
     private final List<Appointment> appointmentsList;
+    private final OnAppointmentClickListener listener;
 
+    public interface OnAppointmentClickListener {
+        void onAppointmentClick(Appointment appointment);
+    }
 
-    public AppointmentAdapter(List<Appointment> appointmentsList) {
+    public AppointmentAdapter(List<Appointment> appointmentsList,  OnAppointmentClickListener listener) {
         this.appointmentsList = appointmentsList != null ? appointmentsList : new ArrayList<>();
+        this.listener = listener;
     }
 
     @NonNull
@@ -41,12 +46,22 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     static class AppointmentViewHolder extends RecyclerView.ViewHolder {
         TextView headingTextView, dateTextView, timeTextView, locationTextView;
 
+
         public AppointmentViewHolder(@NonNull View itemView) {
             super(itemView);
             headingTextView = itemView.findViewById(R.id.headingTextView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
             timeTextView = itemView.findViewById(R.id.timeTextView);
             locationTextView = itemView.findViewById(R.id.locationTextView);
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onAppointmentClick(appointmentsList.get(position));
+                    }
+                }
+            });
         }
 
         public void bind(Appointment appointment) {
