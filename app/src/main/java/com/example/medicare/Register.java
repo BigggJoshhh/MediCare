@@ -45,6 +45,7 @@ public class Register extends AppCompatActivity {
         userDetails.put("phone_number", phone_number);
         userDetails.put("notification", true);
         userDetails.put("language", "English");
+        userDetails.put("photo", "https://firebasestorage.googleapis.com/v0/b/ande-ca2-f3d28.appspot.com/o/default-no-image.png?alt=media&token=851bfd15-c7fb-41f0-ab7e-17c92cd69a0d");
 
         // Add other details you want to store
 

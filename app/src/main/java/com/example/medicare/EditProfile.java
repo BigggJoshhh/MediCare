@@ -1,25 +1,48 @@
 package com.example.medicare;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 
 import java.util.HashMap;
 import java.util.Map;
 
-import classes.User;
-import methods.UserDoc;
+
+// Your custom classes
+import classes.*;
+import de.hdodenhof.circleimageview.CircleImageView;
+import methods.*;
+
 
 public class EditProfile extends AppCompatActivity {
+
+    ImageView imageView;
+    private Uri selectedImageUri = null;
+    private ActivityResultLauncher<Intent> galleryActivityResultLauncher;
 
     EditText username_et;
     EditText email_et;
@@ -29,14 +52,17 @@ public class EditProfile extends AppCompatActivity {
     RadioButton female;
     FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private FirebaseUser currentUser;
 
     private String originalUsername;
     private String originalEmail;
     private String originalPhone;
     private String originalGender;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         // Initialize EditText fields
@@ -45,12 +71,18 @@ public class EditProfile extends AppCompatActivity {
         phone_et = findViewById(R.id.edit_phone_et);
         male = findViewById(R.id.gender_male);
         female = findViewById(R.id.gender_female);
+
+        imageView = findViewById(R.id.profile_image);
+
         // Initialize RadioGroup for gender
         gender_radio = findViewById(R.id.gender_group);
 
 
+
+        // Firebase fetchUser
         db = FirebaseFirestore.getInstance();
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
 
         if (currentUser != null) {
             db.collection("users").document(currentUser.getUid()).get()
@@ -66,6 +98,10 @@ public class EditProfile extends AppCompatActivity {
                             username_et.setText(originalUsername);
                             email_et.setText(originalEmail);
                             phone_et.setText(originalPhone);
+                            Glide.with(this)
+                                    .load(Uri.parse(user.getPhoto()))
+                                    .into(imageView);
+
 
                             if ("Male".equals(originalGender)) {
                                 male.setChecked(true);
@@ -78,7 +114,23 @@ public class EditProfile extends AppCompatActivity {
                         // Handle the error
                     });
 
+            galleryActivityResultLauncher = registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == AppCompatActivity.RESULT_OK && result.getData() != null) {
+                            selectedImageUri = result.getData().getData();
+                            imageView.setImageURI(result.getData().getData());
+                        }
+                    }
+            );
+
+            imageView.setOnClickListener(v -> {
+                Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                galleryActivityResultLauncher.launch(openGallery);
+            });
+
             findViewById(R.id.save_button).setOnClickListener(v -> {
+
                 // Prepare a map to store updates
                 Map<String, Object> updates = new HashMap<>();
 
@@ -97,12 +149,30 @@ public class EditProfile extends AppCompatActivity {
                     updates.put("gender", selectedGender);
                 }
 
+                if (selectedImageUri != null) {
+                    uploadImageToFirebase(selectedImageUri, new OnImageUploadCompleteListener() {
+                        @Override
+                        public void onImageUploadComplete(String imageUrl) {
+                            imageView.setImageURI(Uri.parse(imageUrl));
+                            updates.put("photo", imageUrl);
+
+                            Toast.makeText(EditProfile.this, "Profile image updated!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onImageUploadFailed(Exception exception) {
+                            Toast.makeText(EditProfile.this, "Failed to upload image: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
                 // Update Firestore if there are changes
                 if (!updates.isEmpty()) {
                     UserDoc userDoc = new UserDoc(currentUser.getUid());
                     userDoc.updateUserProfile(updates).addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Updated Profile!", Toast.LENGTH_SHORT).show();
+
                             Intent intent = new Intent(EditProfile.this, Settings.class);
                             startActivity(intent);
                             finish();
@@ -124,5 +194,34 @@ public class EditProfile extends AppCompatActivity {
             });
         }
     }
+
+    private void uploadImageToFirebase(Uri imageUri, final OnImageUploadCompleteListener listener) {
+        StorageReference fileRef = FirebaseStorage.getInstance().getReference()
+                .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/profile.jpg");
+        fileRef.putFile(imageUri)
+                .addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setPhotoUri(uri)
+                            .build();
+
+                    currentUser.updateProfile(profileUpdates)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    listener.onImageUploadComplete(uri.toString());
+                                } else {
+                                    listener.onImageUploadFailed(task.getException());
+                                }
+                            });
+                }))
+                .addOnFailureListener(listener::onImageUploadFailed);
+    }
+
+    public interface OnImageUploadCompleteListener {
+        void onImageUploadComplete(String imageUrl);
+
+        void onImageUploadFailed(Exception exception);
+    }
+
+
 };
 
