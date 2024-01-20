@@ -29,5 +29,6 @@
     <string name="save">save</string>
     <string name="name">Name\n</string>
     <string name="gender">Gender</string>
+    <string name="search_hint">Search...</string>
 
 </resources>

@@ -4,23 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/homepage"
     tools:context=".EditProfile">
 
-    <!-- Profile image -->
 
-    <!-- Edit Profile Title -->
+    <!-- Form starts here -->
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="108dp"
-        android:background="@drawable/rounded_edges"
+        android:layout_marginTop="96dp"
         android:contentDescription="Profile Edit"
         android:src="@drawable/calendar32"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,26 +26,24 @@
         android:id="@+id/edit_profile_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="@string/edit_profile"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_image" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_image" />
 
-    <!-- Form starts here -->
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:id="@+id/card_view"
-        android:layout_width="0dp"
+        android:layout_width="379dp"
         android:layout_height="400dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="5dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_profile_title">
+        app:layout_constraintTop_toBottomOf="@+id/edit_profile_title">
 
         <!-- Use a LinearLayout or continue with ConstraintLayout inside the CardView -->
         <LinearLayout
@@ -178,9 +174,11 @@
         </LinearLayout>
         <!-- LinearLayout for Buttons -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="361dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
+            android:layout_marginBottom="42dp"
             android:orientation="horizontal"
             android:padding="16dp">
 
@@ -206,6 +204,6 @@
         </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
