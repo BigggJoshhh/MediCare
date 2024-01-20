@@ -10,6 +10,11 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String EXTRA_START_FRAGMENT = "com.example.medicare.START_FRAGMENT";
+    public static final String FRAGMENT_HOME = "HomeFragment";
+    public static final String FRAGMENT_CALENDAR = "CalendarFragment";
+    public static final String FRAGMENT_APPT = "AppointmentFragment";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,11 +23,41 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        bottomNav.setSelectedItemId(R.id.navigation_home);
+        // Check for the starting fragment extra
+        String startFragment = getIntent().getStringExtra(EXTRA_START_FRAGMENT);
+        if (startFragment != null) {
+            selectFragment(startFragment);
+        } else {
+            // Default starting fragment
+            bottomNav.setSelectedItemId(R.id.navigation_home);
+        }
+    }
 
-        // To display the home fragment initially
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment()).commit();
+
+    private void selectFragment(String fragmentName) {
+        Fragment selectedFragment = null;
+        int navItemId = R.id.navigation_home; // default ID
+        switch (fragmentName) {
+            case FRAGMENT_HOME:
+                selectedFragment = new HomeFragment();
+                navItemId = R.id.navigation_home;
+                break;
+            case FRAGMENT_CALENDAR:
+                selectedFragment = new CalendarFragment();
+                navItemId = R.id.navigation_calendar;
+                break;
+            case FRAGMENT_APPT:
+                selectedFragment = new AppointmentFragment();
+                navItemId = R.id.navigation_appt;
+                break;
+        }
+
+        if (selectedFragment != null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    selectedFragment).commit();
+            BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+            bottomNav.setSelectedItemId(navItemId);
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -51,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             };
+
     private void displayFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment) // Use your actual container ID
