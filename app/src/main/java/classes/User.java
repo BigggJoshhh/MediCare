@@ -1,5 +1,6 @@
 package classes;
 
+import android.net.Uri;
 public class User {
     private boolean notifications;
     private String language;
@@ -7,21 +8,32 @@ public class User {
     private String email;
     private String username;
     private String gender;
+    private String photo;
+
 
     public User(){
 
     }
-    public User(String username, String email, String phone_number, String language, String gender, boolean notifications){
+    public User(String username, String email, String phone_number, String language, String gender, boolean notifications, String photo){
         this.email = email;
         this.username = username;
         this.phone_number = phone_number;
         this.language = language;
         this.gender = gender;
         this.notifications= notifications;
+        this.photo = photo;
     }
 
     public String getGender() {
         return gender;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public void setGender(String gender) {

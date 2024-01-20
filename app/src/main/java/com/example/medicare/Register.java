@@ -1,5 +1,8 @@
 package com.example.medicare;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,6 +48,7 @@ public class Register extends AppCompatActivity {
         userDetails.put("phone_number", phone_number);
         userDetails.put("notification", true);
         userDetails.put("language", "English");
+        userDetails.put("photo", "https://firebasestorage.googleapis.com/v0/b/ande-ca2-f3d28.appspot.com/o/default-no-image.png?alt=media&token=851bfd15-c7fb-41f0-ab7e-17c92cd69a0d");
         userDetails.put("role", "user");
         // Add other details you want to store
 
