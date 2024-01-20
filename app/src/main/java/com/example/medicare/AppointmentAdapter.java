@@ -12,22 +12,23 @@ import java.util.List;
 
 public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.AppointmentViewHolder> {
 
-    private static List<Appointment> appointmentsList = null;
-    private static final OnAppointmentClickListener listener = null;
+    private static List<Appointment> appointmentsList;
+    private OnAppointmentClickListener listener;
 
     public interface OnAppointmentClickListener {
         void onAppointmentClick(Appointment appointment);
     }
 
-    public AppointmentAdapter(List<Appointment> appointmentsList) {
-        AppointmentAdapter.appointmentsList = appointmentsList != null ? appointmentsList : new ArrayList<>();
+    public AppointmentAdapter(List<Appointment> appointmentsList, OnAppointmentClickListener listener) {
+        this.appointmentsList = appointmentsList != null ? appointmentsList : new ArrayList<>();
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public AppointmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_appointment, parent, false);
-        return new AppointmentViewHolder(itemView);
+        return new AppointmentViewHolder(itemView, listener);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         TextView headingTextView, dateTextView, timeTextView, locationTextView;
 
 
-        public AppointmentViewHolder(@NonNull View itemView) {
+        public AppointmentViewHolder(@NonNull View itemView, OnAppointmentClickListener listener) {
             super(itemView);
             headingTextView = itemView.findViewById(R.id.headingTextView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
@@ -53,11 +54,9 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             locationTextView = itemView.findViewById(R.id.locationTextView);
 
             itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onAppointmentClick(appointmentsList.get(position));
-                    }
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onAppointmentClick(appointmentsList.get(position));
                 }
             });
         }

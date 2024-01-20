@@ -52,7 +52,7 @@ public class MainFragment extends Fragment implements AppointmentAdapter.OnAppoi
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         // Initialize the adapter with the appointment list
-        adapter = new AppointmentAdapter(appointmentList);
+        adapter = new AppointmentAdapter(appointmentList, this);
         recyclerView.setAdapter(adapter);
 
         return view;
