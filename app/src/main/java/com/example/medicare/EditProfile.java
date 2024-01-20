@@ -1,6 +1,9 @@
 package com.example.medicare;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,6 +31,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,7 +84,6 @@ public class EditProfile extends AppCompatActivity {
         gender_radio = findViewById(R.id.gender_group);
 
 
-
         // Firebase fetchUser
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -114,20 +119,22 @@ public class EditProfile extends AppCompatActivity {
                         // Handle the error
                     });
 
+            imageView.setOnClickListener(v -> {
+                Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                galleryActivityResultLauncher.launch(openGallery);
+            });
+
             galleryActivityResultLauncher = registerForActivityResult(
                     new ActivityResultContracts.StartActivityForResult(),
                     result -> {
                         if (result.getResultCode() == AppCompatActivity.RESULT_OK && result.getData() != null) {
                             selectedImageUri = result.getData().getData();
-                            imageView.setImageURI(result.getData().getData());
+                            Glide.with(this)
+                                    .load(selectedImageUri)
+                                    .into(imageView);
                         }
                     }
             );
-
-            imageView.setOnClickListener(v -> {
-                Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                galleryActivityResultLauncher.launch(openGallery);
-            });
 
             findViewById(R.id.save_button).setOnClickListener(v -> {
 
@@ -153,10 +160,27 @@ public class EditProfile extends AppCompatActivity {
                     uploadImageToFirebase(selectedImageUri, new OnImageUploadCompleteListener() {
                         @Override
                         public void onImageUploadComplete(String imageUrl) {
-                            imageView.setImageURI(Uri.parse(imageUrl));
                             updates.put("photo", imageUrl);
-
                             Toast.makeText(EditProfile.this, "Profile image updated!", Toast.LENGTH_SHORT).show();
+                            // Update Firestore if there are changes
+                            if (!updates.isEmpty()) {
+                                UserDoc userDoc = new UserDoc(currentUser.getUid());
+                                userDoc.updateUserProfile(updates).addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "Updated Profile!", Toast.LENGTH_SHORT).show();
+
+                                        Intent intent = new Intent(EditProfile.this, Settings.class);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Failed to Update Profile!", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(EditProfile.this, Settings.class);
+                                        startActivity(intent);
+                                        finish();
+
+                                    }
+                                });
+                            }
                         }
 
                         @Override
@@ -165,56 +189,53 @@ public class EditProfile extends AppCompatActivity {
                         }
                     });
                 }
-
-                // Update Firestore if there are changes
-                if (!updates.isEmpty()) {
-                    UserDoc userDoc = new UserDoc(currentUser.getUid());
-                    userDoc.updateUserProfile(updates).addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Updated Profile!", Toast.LENGTH_SHORT).show();
-
-                            Intent intent = new Intent(EditProfile.this, Settings.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Failed to Update Profile!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(EditProfile.this, LanguageSelect.class);
-                            startActivity(intent);
-                            finish();
-
-                        }
-                    });
-                }
             });
 
             // Cancel button listener
             findViewById(R.id.cancel_button).setOnClickListener(v -> {
-                // Handle cancel action (e.g., finish the activity)
+                Intent intent = new Intent(EditProfile.this, Settings.class);
+                startActivity(intent);
                 finish();
             });
         }
     }
 
+    private Bitmap formatImageForUpload(Uri imageUri, int targetWidth, int targetHeight) {
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+            float scalingFactor = Math.min(targetWidth / (float) bitmap.getWidth(), targetHeight / (float) bitmap.getHeight());
+            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * scalingFactor), (int) (bitmap.getHeight() * scalingFactor), true);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 70, out);
+            return BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
     private void uploadImageToFirebase(Uri imageUri, final OnImageUploadCompleteListener listener) {
+        Bitmap formattedImage = formatImageForUpload(imageUri, 800, 600); // Resize to 800x600 pixels, adjust as needed
+        if (formattedImage == null) {
+            listener.onImageUploadFailed(new Exception("Error formatting image"));
+            return;
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        formattedImage.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+        byte[] imageData = baos.toByteArray();
+
         StorageReference fileRef = FirebaseStorage.getInstance().getReference()
                 .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/profile.jpg");
-        fileRef.putFile(imageUri)
-                .addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                            .setPhotoUri(uri)
-                            .build();
 
-                    currentUser.updateProfile(profileUpdates)
-                            .addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    listener.onImageUploadComplete(uri.toString());
-                                } else {
-                                    listener.onImageUploadFailed(task.getException());
-                                }
-                            });
+        fileRef.putBytes(imageData)
+                .addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+
                 }))
                 .addOnFailureListener(listener::onImageUploadFailed);
     }
+
 
     public interface OnImageUploadCompleteListener {
         void onImageUploadComplete(String imageUrl);

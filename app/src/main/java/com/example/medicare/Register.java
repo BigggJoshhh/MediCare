@@ -14,6 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,7 +49,7 @@ public class Register extends AppCompatActivity {
         userDetails.put("notification", true);
         userDetails.put("language", "English");
         userDetails.put("photo", "https://firebasestorage.googleapis.com/v0/b/ande-ca2-f3d28.appspot.com/o/default-no-image.png?alt=media&token=851bfd15-c7fb-41f0-ab7e-17c92cd69a0d");
-
+        userDetails.put("role", "user");
         // Add other details you want to store
 
         // Add a new document with a generated ID
