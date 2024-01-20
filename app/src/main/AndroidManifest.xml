@@ -29,26 +29,35 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
+
+
         </activity>
+
         <activity
             android:name=".HomeActivity"
             android:exported="true">
-        </activity>
-        <activity android:name=".Register" />
-        <activity android:name=".Login"
-                  android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Register" />
+        <activity android:name=".Login" />
+
         <activity
             android:name=".AppointmentFragment"
             android:exported="true">
         </activity>
+
+        <activity android:name=".ViewAppointment" />
+
+
         <activity android:name=".DoctorAppointment" android:exported="true"/>
         <activity android:name=".DoctorSchedule" android:exported="true"/>
+
 
     </application>
 

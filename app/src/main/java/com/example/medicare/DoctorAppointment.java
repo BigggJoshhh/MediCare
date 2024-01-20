@@ -42,3 +42,4 @@ public class DoctorAppointment extends AppCompatActivity {
         recyclerView.setAdapter(myRecyclerViewAdapter);
     }
 }
+

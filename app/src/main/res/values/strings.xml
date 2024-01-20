@@ -19,6 +19,8 @@
     <string name="appointment_image_description">Clinic Image</string>
     <string name="hello_appt_fragment">Hello appt fragment</string>
     <string name="hello_cal_fragment">Hello cal fragment</string>
+    <string name ="appointment_toolbar_header">My Appointments</string>
+    <string name="appointment_fab">Add Appointment</string>
     <string name="logout">Logout</string>
     <string name="hello">Hello,</string>
     <string name="male">Male</string>
