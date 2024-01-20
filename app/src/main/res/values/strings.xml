@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">MediCare</string>
     <string name="login_button">Login</string>
-    <string name="email">Email\n</string>
+    <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="create">Create</string>
     <string name="repeat_password">Repeat Password</string>
-    <string name="already_a_user_login">Already a user? Login</string>
+    <string name="already_a_user_login">Already a user? Register</string>
     <string name="logo">Logo\n</string>
     <string name="sign_up">Sign Up</string>
     <string name="phone_number">Phone Number</string>
@@ -22,5 +22,15 @@
     <string name ="appointment_toolbar_header">My Appointments</string>
     <string name="appointment_fab">Add Appointment</string>
     <string name="logout">Logout</string>
+    <string name="hello">Hello,</string>
+    <string name="male">Male</string>
+    <string name="female">Female\n</string>
+    <string name="phone">Phone</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="cancel">cancel</string>
+    <string name="save">save</string>
+    <string name="name">Name\n</string>
+    <string name="gender">Gender</string>
+    <string name="search_hint">Search...</string>
 
 </resources>

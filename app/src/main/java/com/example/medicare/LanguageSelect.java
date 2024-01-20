@@ -1,14 +1,14 @@
 package com.example.medicare;
 
-import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Bundle;
 
-public class DoctorSchedule extends AppCompatActivity {
+public class LanguageSelect extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_schedule);
+        setContentView(R.layout.activity_language_select);
     }
 }
