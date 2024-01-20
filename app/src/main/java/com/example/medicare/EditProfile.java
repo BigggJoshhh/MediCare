@@ -1,6 +1,10 @@
 package com.example.medicare;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.Manifest;
+
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
@@ -19,6 +23,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,7 +51,7 @@ import methods.*;
 
 public class EditProfile extends AppCompatActivity {
 
-    ImageView imageView;
+    CircleImageView imageView;
     private Uri selectedImageUri = null;
     private ActivityResultLauncher<Intent> galleryActivityResultLauncher;
 
@@ -71,6 +76,7 @@ public class EditProfile extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        verifyStoragePermissions(this);
         // Initialize EditText fields
         username_et = findViewById(R.id.edit_username_et);
         email_et = findViewById(R.id.edit_email_et);
@@ -120,8 +126,10 @@ public class EditProfile extends AppCompatActivity {
                     });
 
             imageView.setOnClickListener(v -> {
-                Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                galleryActivityResultLauncher.launch(openGallery);
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("image/*");
+                galleryActivityResultLauncher.launch(intent);
             });
 
             galleryActivityResultLauncher = registerForActivityResult(
@@ -129,12 +137,14 @@ public class EditProfile extends AppCompatActivity {
                     result -> {
                         if (result.getResultCode() == AppCompatActivity.RESULT_OK && result.getData() != null) {
                             selectedImageUri = result.getData().getData();
-                            Glide.with(this)
-                                    .load(selectedImageUri)
-                                    .into(imageView);
+                            imageView.setImageURI(selectedImageUri); // Directly set the URI to the imageView
+//                            Glide.with(this)
+//                                    .load(selectedImageUri)
+//                                    .into(imageView);
                         }
                     }
             );
+
 
             findViewById(R.id.save_button).setOnClickListener(v -> {
 
@@ -200,41 +210,19 @@ public class EditProfile extends AppCompatActivity {
         }
     }
 
-    private Bitmap formatImageForUpload(Uri imageUri, int targetWidth, int targetHeight) {
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-            float scalingFactor = Math.min(targetWidth / (float) bitmap.getWidth(), targetHeight / (float) bitmap.getHeight());
-            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * scalingFactor), (int) (bitmap.getHeight() * scalingFactor), true);
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 70, out);
-            return BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 
     private void uploadImageToFirebase(Uri imageUri, final OnImageUploadCompleteListener listener) {
-        Bitmap formattedImage = formatImageForUpload(imageUri, 800, 600); // Resize to 800x600 pixels, adjust as needed
-        if (formattedImage == null) {
-            listener.onImageUploadFailed(new Exception("Error formatting image"));
-            return;
-        }
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        formattedImage.compress(Bitmap.CompressFormat.JPEG, 70, baos);
-        byte[] imageData = baos.toByteArray();
-
         StorageReference fileRef = FirebaseStorage.getInstance().getReference()
                 .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/profile.jpg");
 
-        fileRef.putBytes(imageData)
+        fileRef.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
-
+                    // Handle the success
+                    listener.onImageUploadComplete(uri.toString());
                 }))
                 .addOnFailureListener(listener::onImageUploadFailed);
     }
+
 
 
     public interface OnImageUploadCompleteListener {
@@ -242,6 +230,27 @@ public class EditProfile extends AppCompatActivity {
 
         void onImageUploadFailed(Exception exception);
     }
+
+
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+
+    public void verifyStoragePermissions(Activity activity) {
+        // Check if we have read permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
+
 
 
 };

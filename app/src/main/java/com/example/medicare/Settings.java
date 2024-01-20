@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.w3c.dom.Text;
+
 import classes.User;
 import de.hdodenhof.circleimageview.CircleImageView;
 import methods.UserDoc;
@@ -30,10 +33,13 @@ public class Settings extends AppCompatActivity {
 
     LinearLayout editProfilePage;
     LinearLayout languagePage;
-    de.hdodenhof.circleimageview.CircleImageView imageView;
+    CircleImageView imageView;
+    TextView username;
     UserDoc userDoc;
     User user;
     private FirebaseFirestore db;
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,30 +48,30 @@ public class Settings extends AppCompatActivity {
 
         languagePage = findViewById(R.id.language_card);
         editProfilePage = findViewById(R.id.edit_profile_card);
+        db = FirebaseFirestore.getInstance();
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        currentUser = mAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            UserDoc userdoc = new UserDoc(currentUser.getUid());
-            userdoc.fetchUser().addOnSuccessListener(new OnSuccessListener<User>() {
-                @Override
-                public void onSuccess(User userResult) {
-                    // This code will run on the main thread, it's safe to update UI components
-                    TextView username = findViewById(R.id.user_name);
-                    CircleImageView imageView = findViewById(R.id.profile_image);
+            Log.d("user current", currentUser.getUid());
+            db.collection("users").document(currentUser.getUid()).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        Log.d("user current", String.valueOf(documentSnapshot));
 
-//                    username.setText(userResult.getUsername());
-//                    Glide.with(Settings.this)
-//                            .load(Uri.parse(user.getPhoto()))
-//                            .into(imageView);
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    // Handle the error
-                    Log.e("Settings", "Error fetching user", e);
-                }
-            });
+                        User user = documentSnapshot.toObject(User.class);
+                        if (user != null) {
+                            username = findViewById(R.id.settings_username);
+                            username.setText(user.getUsername());
+                            imageView = findViewById(R.id.settings_image);
+                            if (user.getPhoto() != null && !user.getPhoto().isEmpty()) {
+                                Glide.with(this)
+                                        .load(Uri.parse(user.getPhoto()))
+                                        .into(imageView);
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Handle the error
+                    });
         }
 
         languagePage.setOnClickListener(new View.OnClickListener() {
