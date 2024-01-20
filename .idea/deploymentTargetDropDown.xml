@@ -12,7 +12,20 @@
         <State />
       </entry>
       <entry key="MainActivity">
-        <State />
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\chuaj\.android\avd\Iphone_mini.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-01-20T10:29:20.244512500Z" />
+        </State>
       </entry>
       <entry key="app">
         <State>
@@ -27,7 +40,7 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-01-19T05:53:42.851920500Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-01-20T10:29:28.309447600Z" />
         </State>
       </entry>
     </value>

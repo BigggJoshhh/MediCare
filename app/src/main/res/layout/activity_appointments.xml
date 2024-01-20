@@ -32,7 +32,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="My Appointments"
+                app:title="@string/appointment_toolbar_header"
                 app:titleTextColor="#ffff" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -71,7 +71,7 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:focusable="true"
-        android:contentDescription="Add Appointment"
+        android:contentDescription="@string/appointment_fab"
         app:srcCompat="@drawable/whiteplus"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"

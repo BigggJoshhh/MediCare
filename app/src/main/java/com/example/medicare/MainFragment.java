@@ -1,5 +1,6 @@
 package com.example.medicare;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,7 +15,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements AppointmentAdapter.OnAppointmentClickListener {
     // Initialize variable
      RecyclerView recyclerView;
      AppointmentAdapter adapter;
@@ -57,15 +58,11 @@ public class MainFragment extends Fragment {
         return view;
     }
 
-    public void updateAppointments(ArrayList<Appointment> appointments) {
-        if (appointmentList != null) {
-            appointmentList.clear();
-            appointmentList.addAll(appointments);
-            if (adapter != null) {
-                getActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
-            }
-        } else {
-            Log.e("MainFragment", "Appointment list is null, can't update appointments");
-        }
+    @Override
+    public void onAppointmentClick(Appointment appointment) {
+        Intent intent = new Intent(getActivity(), ViewAppointment.class);
+        // Assuming Appointment class implements Parcelable or Serializable
+        intent.putExtra("APPOINTMENT_EXTRA", appointment);
+        startActivity(intent);
     }
 }
