@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">医疗保健</string>
+    <string name="login_button">登录</string>
+    <string name="email">电子邮件</string>
+    <string name="password">密码</string>
+    <string name="username">用户名</string>
+    <string name="create">创建</string>
+    <string name="repeat_password">重复密码</string>
+    <string name="already_a_user_login">已经是用户？注册</string>
+    <string name="logo">标志\n</string>
+    <string name="sign_up">注册</string>
+    <string name="phone_number">电话号码</string>
+    <string name="not_a_user_login">不是用户？登录</string>
+    <string name="contentDescription">加载图片</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="new_appointment">预约新会议</string>
+    <string name="medical_consultation">医疗咨询</string>
+    <string name="hello_home_fragment">你好，首页片段</string>
+    <string name="appointment_image_description">诊所图片</string>
+    <string name="hello_appt_fragment">你好，预约片段</string>
+    <string name="hello_cal_fragment">你好，日历片段</string>
+    <string name="logout">退出登录</string>
+    <string name="hello">你好，</string>
+    <string name="male">男性</string>
+    <string name="female">女性\n</string>
+    <string name="phone">电话</string>
+    <string name="edit_profile">编辑个人资料</string>
+    <string name="cancel">取消</string>
+    <string name="save">保存</string>
+    <string name="name">姓名\n</string>
+    <string name="gender">性别</string>
+</resources>
