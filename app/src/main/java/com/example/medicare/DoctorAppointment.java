@@ -23,14 +23,14 @@ public class DoctorAppointment extends AppCompatActivity {
     }
 
     protected void getDbData() {
-        ArrayList<Appointment> testAppointments = new ArrayList<Appointment>(0);
-        testAppointments.add(new Appointment("1", "2", "Health Checkup", (new Date()), "Singapore Polytechnic", "", ""));
-        testAppointments.add(new Appointment("1", "2", "Health Checkup", (new Date()), "Singapore Polytechnic", "", ""));
-        testAppointments.add(new Appointment("1", "2", "Health Checkup", (new Date()), "Singapore Polytechnic", "", ""));
+//        ArrayList<Appointment> testAppointments = new ArrayList<Appointment>(0);
+//        testAppointments.add(new Appointment("1", "2", "Health Checkup", (new Date()), "Singapore Polytechnic", "", ""));
+//        testAppointments.add(new Appointment("1", "2", "Health Checkup", (new Date()), "Singapore Polytechnic", "", ""));
+//        testAppointments.add(new Appointment("1", "2", "Health Checkup", (new Date()), "Singapore Polytechnic", "", ""));
 
-        for (Appointment ap : testAppointments) {
-            appointments.add(new RecyclerItem(ap.getService(), ap.getFormattedDate(), ap.getFormattedTime(), ap.getLocation()));
-        }
+//        for (Appointment ap : testAppointments) {
+//            appointments.add(new RecyclerItem(ap.getService(), ap.getFormattedDate(), ap.getFormattedTime(), ap.getLocation()));
+//        }
     }
 
     protected void setData() {

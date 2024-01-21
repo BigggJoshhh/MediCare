@@ -24,7 +24,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class Login extends AppCompatActivity {
+public class Login extends BaseActivity  {
     EditText editTextEmail, editTextPassword;
     TextView textViewLogin;
     Button buttonCreate;
