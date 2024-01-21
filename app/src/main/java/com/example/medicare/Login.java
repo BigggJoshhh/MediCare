@@ -49,8 +49,8 @@ public class Login extends AppCompatActivity {
                             role = document.getString("role");
                         }
                     }
-                    if (role.equals("doctor")) {
-                        intent = new Intent(getApplicationContext(), DoctorAppointment.class);
+                    if (role.equals("nurse")) {
+                        intent = new Intent(getApplicationContext(), ClinicActivity.class);
                     } else {
                         intent = new Intent(getApplicationContext(), MainActivity.class);
                     }
@@ -138,8 +138,8 @@ public class Login extends AppCompatActivity {
                                                     role = document.getString("role");
                                                 }
                                             }
-                                            if (role.equals("doctor")) {
-                                                intent = new Intent(getApplicationContext(), DoctorAppointment.class);
+                                            if (role.equals("nurse")) {
+                                                intent = new Intent(getApplicationContext(), ClinicActivity.class);
                                             } else {
                                                 intent = new Intent(getApplicationContext(), MainActivity.class);
                                             }
