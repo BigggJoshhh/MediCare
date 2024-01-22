@@ -1,50 +1,110 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@drawable/homepage"
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="72dp"
+        android:padding="16dp"
         android:text="Book Appointment"
         android:textSize="24sp"
-        android:layout_gravity="center_horizontal"
-        android:padding="16dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/label_select_service"
+        android:layout_width="362dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="72dp"
+        android:text="Select a Service"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Spinner
         android:id="@+id/spinner_services"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"
+        android:layout_marginTop="8dp"
         android:padding="8dp"
-        android:layout_marginTop="16dp"/>
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_select_service" />
+
+    <TextView
+        android:id="@+id/label_select_doctor"
+        android:layout_width="362dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="Select a Doctor"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_services" />
 
     <Spinner
         android:id="@+id/spinner_doctors"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"
+        android:layout_marginTop="8dp"
         android:padding="8dp"
-        android:layout_marginTop="16dp"/>
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_select_doctor" />
 
-    <!-- Additional Information input -->
     <EditText
         android:id="@+id/edittext_additional_info"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="108dp"
         android:hint="Additional Information (Optional)"
         android:padding="8dp"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_doctors" />
 
-    <!-- Next Button -->
     <Button
         android:id="@+id/button_next"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Next"
+        android:layout_width="150dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="20dp"
         android:backgroundTint="@color/green_30"
-        android:layout_marginTop="24dp"
-        android:textColor="@android:color/white"/>
+        android:text="Next"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_additional_info"
+        app:layout_constraintVertical_bias="0.115" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/button_cancel"
+        android:layout_width="150dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/cancel"
+        android:text="Cancel"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_additional_info"
+        app:layout_constraintVertical_bias="0.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>
