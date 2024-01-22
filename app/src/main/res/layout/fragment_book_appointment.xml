@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Book Appointment"
+        android:textSize="24sp"
+        android:layout_gravity="center_horizontal"
+        android:padding="16dp"/>
+
+    <Spinner
+        android:id="@+id/spinner_services"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:padding="8dp"
+        android:layout_marginTop="16dp"/>
+
+    <Spinner
+        android:id="@+id/spinner_doctors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:padding="8dp"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Additional Information input -->
+    <EditText
+        android:id="@+id/edittext_additional_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Additional Information (Optional)"
+        android:padding="8dp"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Next Button -->
+    <Button
+        android:id="@+id/button_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:backgroundTint="@color/green_30"
+        android:layout_marginTop="24dp"
+        android:textColor="@android:color/white"/>
+
+</LinearLayout>

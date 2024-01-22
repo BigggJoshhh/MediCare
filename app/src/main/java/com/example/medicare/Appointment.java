@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Appointment implements Parcelable {
+    private String appointmentId;
     private String userPath;
     private String doctorPath;
     private String service ;
@@ -20,7 +21,8 @@ public class Appointment implements Parcelable {
     private Timestamp datetime;
     private String location;
 
-    public Appointment(String userPath, String doctorPath, String service, String others, String status, Timestamp datetime, String location) {
+    public Appointment(String appointmentId, String userPath, String doctorPath, String service, String others, String status, Timestamp datetime, String location) {
+        this.appointmentId = appointmentId;
         this.userPath = userPath;
         this.doctorPath = doctorPath;
         this.service = service;
@@ -31,6 +33,14 @@ public class Appointment implements Parcelable {
     }
 
     public Appointment() {
+    }
+
+    public String getAppointmentId() {
+        return appointmentId;
+    }
+
+    public void setAppointmentId(String appointmentId) {
+        this.appointmentId = appointmentId;
     }
 
     public String getUserPath() {
