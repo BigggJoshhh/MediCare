@@ -7,6 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.medicare.fragments.AppointmentFragment;
+import com.example.medicare.fragments.HomeFragment;
+import com.example.medicare.fragments.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
                 navItemId = R.id.navigation_home;
                 break;
             case FRAGMENT_CALENDAR:
-                selectedFragment = new CalendarFragment();
-                navItemId = R.id.navigation_calendar;
+                selectedFragment = new SettingsFragment();
+                navItemId = R.id.navigation_settings;
                 break;
             case FRAGMENT_APPT:
                 selectedFragment = new AppointmentFragment();
@@ -70,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.navigation_home:
                             selectedFragment = new HomeFragment();
                             break;
-                        case R.id.navigation_calendar:
-                            selectedFragment = new CalendarFragment();
+                        case R.id.navigation_settings:
+                            selectedFragment = new SettingsFragment();
                             break;
                         case R.id.navigation_appt:
                             displayFragment(new AppointmentFragment());

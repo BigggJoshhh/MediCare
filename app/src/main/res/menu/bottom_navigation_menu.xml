@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_calendar"
-        android:icon="@drawable/calendar"
-        android:title="Calendar" />
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/iconsettings"
+        android:title="@string/settings" />
 
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/home"
-        android:title="Home" />
+        android:title="@string/home" />
 
     <item
         android:id="@+id/navigation_appt"
         android:icon="@drawable/home"
-        android:title="Appointment" />
+        android:title="@string/appointment" />
 
 </menu>
