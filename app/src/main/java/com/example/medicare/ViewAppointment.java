@@ -50,7 +50,7 @@ public class ViewAppointment extends AppCompatActivity {
                                else {
                                    Log.e("errorr", "document doesn't exist");
                                }
-                               Log.d("errorr ", doctorName);
+                               Log.d("errorr ", "doctorName");
                            } else {
                                Log.e("errorr", "error retrieving document");
                            }

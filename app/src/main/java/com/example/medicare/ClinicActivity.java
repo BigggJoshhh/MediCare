@@ -40,6 +40,14 @@ public class ClinicActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clinic);
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        fragments = new ArrayList<>();
+        requestedAppointments = new ArrayList<>();
+        scheduledAppointments = new ArrayList<>();
+        cancelledAppointments = new ArrayList<>();
 
         getDBData();
 
@@ -83,7 +91,6 @@ public class ClinicActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    Log.d("Debug", Integer.toString(task.getResult().size()));
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Appointment tempAppointment = document.toObject(Appointment.class);
                         tempAppointment.setAppointmentId(document.getId());

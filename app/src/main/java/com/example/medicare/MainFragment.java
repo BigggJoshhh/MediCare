@@ -59,6 +59,12 @@ public class MainFragment extends Fragment implements AppointmentAdapter.OnAppoi
         return view;
     }
 
+    public void onResume() {
+        super.onResume();
+        adapter = new AppointmentAdapter(appointmentList, this);
+        recyclerView.setAdapter(adapter);
+    }
+
     @Override
     public void onAppointmentClick(Appointment appointment) {
         Intent intent = new Intent(getActivity(), ViewAppointment.class);

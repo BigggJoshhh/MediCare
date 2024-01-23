@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class Appointment implements Parcelable {
 
@@ -116,7 +117,8 @@ public class Appointment implements Parcelable {
         if (datetime != null) {
             Date date = datetime.toDate(); // Convert Timestamp to Date
             // Define the format you want. For example: "dd MMM yyyy"
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
             return sdf.format(date);
         }
         return "";
@@ -127,6 +129,7 @@ public class Appointment implements Parcelable {
             Date date = datetime.toDate(); // Convert Timestamp to Date
             // Define the format you want. For example: "hh:mm a"
             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
             return sdf.format(date);
         }
         return "";
@@ -137,10 +140,13 @@ public class Appointment implements Parcelable {
         // Read the userPath and doctorPath as strings
         String userPathString = in.readString();
         String doctorPathString = in.readString();
+        String clinicPathString = in.readString();
 
         // Convert the strings back to DocumentReference
         user = convertStringToDocumentReference(userPathString);
         doctor = convertStringToDocumentReference(doctorPathString);
+        clinic = convertStringToDocumentReference(clinicPathString);
+        appointmentId = in.readString();
         service = in.readString();
         others = in.readString();
         status = in.readString();
@@ -153,6 +159,8 @@ public class Appointment implements Parcelable {
         // Write the userPath and doctorPath as strings
         dest.writeString(userPathToString(user));
         dest.writeString(doctorPathToString(doctor));
+        dest.writeString(clinicPathToString(clinic));
+        dest.writeString(appointmentId);
         dest.writeString(service);
         dest.writeString(others);
         dest.writeString(status);
@@ -191,6 +199,13 @@ public class Appointment implements Parcelable {
     private String doctorPathToString(DocumentReference docRef) {
         if (docRef != null) {
             return docRef.getPath();
+        }
+        return null; // Handle the case where docRef is null
+    }
+
+    private String clinicPathToString(DocumentReference clinicRef) {
+        if (clinicRef != null) {
+            return clinicRef.getPath();
         }
         return null; // Handle the case where docRef is null
     }
