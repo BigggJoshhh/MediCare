@@ -43,5 +43,10 @@
     <string name="home">Home</string>
     <string name="appointment">Appointment</string>
     <string name="settings">Settings</string>
-
+    <string name="doctor">Doctor: </string>
+    <string name="service">Service: </string>
+    <string name="other">Other: </string>
+    <string name="appointment_details">Appointment Details</string>
+    <string name="patient">Patient: </string>
+    <string name="schedule">Schedule</string>
 </resources>
