@@ -1,4 +1,4 @@
-package com.example.medicare;
+package com.example.medicare.fragments;
 
 import android.os.Bundle;
 
@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import classes.Appointment;
+import com.example.medicare.MainFragment;
+import com.example.medicare.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.DocumentSnapshot;

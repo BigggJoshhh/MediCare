@@ -1,23 +1,19 @@
-package com.example.medicare;
+package classes;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 public class Appointment implements Parcelable {
     private DocumentReference user;
-    private String userPath;
     private DocumentReference doctor;
-    private String doctorPath;
     private String service ;
     private String others;
     private String status;
@@ -39,6 +35,7 @@ public class Appointment implements Parcelable {
 
     public DocumentReference getUser() {
         return user;
+
     }
 
     public void setUser(DocumentReference user) {

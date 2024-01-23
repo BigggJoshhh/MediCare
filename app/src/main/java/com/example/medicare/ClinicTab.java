@@ -16,14 +16,14 @@ import java.util.List;
 
 import classes.Appointment;
 
-public class MainFragment extends Fragment implements AppointmentAdapter.OnAppointmentClickListener {
-    // Initialize variable
-     RecyclerView recyclerView;
-     AppointmentAdapter adapter;
+public class ClinicTab extends Fragment implements AppointmentAdapter.OnAppointmentClickListener  {
+
+    RecyclerView recyclerView;
+    AppointmentAdapter adapter;
     List<Appointment> appointmentList = new ArrayList<>();
 
-    public static MainFragment newInstance(ArrayList<Appointment> appointments) {
-        MainFragment fragment = new MainFragment();
+    public static ClinicTab newInstance(ArrayList<Appointment> appointments) {
+        ClinicTab fragment = new ClinicTab();
         Bundle args = new Bundle();
         args.putParcelableArrayList("appointments", appointments);
         fragment.setArguments(args);
