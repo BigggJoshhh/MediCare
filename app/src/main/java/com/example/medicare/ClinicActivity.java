@@ -22,6 +22,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.ArrayList;
 
+import classes.Appointment;
+
 public class ClinicActivity extends AppCompatActivity {
     ArrayList<ClinicTab> fragments = new ArrayList<>();
     ArrayList<Appointment> requestedAppointments = new ArrayList<>();

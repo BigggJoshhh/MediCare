@@ -1,30 +1,28 @@
-package com.example.medicare;
+package classes;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 public class Appointment implements Parcelable {
-    private String appointmentId;
-    private String userPath;
-    private String doctorPath;
+    private DocumentReference user;
+    private DocumentReference doctor;
     private String service ;
     private String others;
     private String status;
     private Timestamp datetime;
     private String location;
 
-    public Appointment(String appointmentId, String userPath, String doctorPath, String service, String others, String status, Timestamp datetime, String location) {
-        this.appointmentId = appointmentId;
-        this.userPath = userPath;
-        this.doctorPath = doctorPath;
+    public Appointment(DocumentReference user, DocumentReference doctor, String service, String others, String status, Timestamp datetime, String location) {
+        this.user = user;
+        this.doctor = doctor;
         this.service = service;
         this.others = others;
         this.status = status;
@@ -35,28 +33,21 @@ public class Appointment implements Parcelable {
     public Appointment() {
     }
 
-    public String getAppointmentId() {
-        return appointmentId;
+    public DocumentReference getUser() {
+        return user;
+
     }
 
-    public void setAppointmentId(String appointmentId) {
-        this.appointmentId = appointmentId;
+    public void setUser(DocumentReference user) {
+         this.user = user;
     }
 
-    public String getUserPath() {
-        return userPath;
+    public DocumentReference getDoctor() {
+            return doctor;
     }
 
-    public String setUserPath(String userPath) {
-        return this.userPath = userPath;
-    }
-
-    public String getDoctorPath() {
-        return doctorPath;
-    }
-
-    public String setDoctorPath(String doctorPath) {
-        return this.doctorPath = doctorPath;
+    public void setDoctor(DocumentReference doctor) {
+        this.doctor = doctor;
     }
 
     public String getService() {
@@ -111,8 +102,13 @@ public class Appointment implements Parcelable {
 
     // Parcelable implementation
     protected Appointment(Parcel in) {
-        userPath = in.readString();
-        doctorPath = in.readString();
+        // Read the userPath and doctorPath as strings
+        String userPathString = in.readString();
+        String doctorPathString = in.readString();
+
+        // Convert the strings back to DocumentReference
+        user = convertStringToDocumentReference(userPathString);
+        doctor = convertStringToDocumentReference(doctorPathString);
         service = in.readString();
         others = in.readString();
         status = in.readString();
@@ -122,8 +118,9 @@ public class Appointment implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(userPath);
-        dest.writeString(doctorPath);
+        // Write the userPath and doctorPath as strings
+        dest.writeString(userPathToString(user));
+        dest.writeString(doctorPathToString(doctor));
         dest.writeString(service);
         dest.writeString(others);
         dest.writeString(status);
@@ -151,5 +148,27 @@ public class Appointment implements Parcelable {
             return new Appointment[size];
         }
     };
+
+    private String userPathToString(DocumentReference userRef) {
+        if (userRef != null) {
+            return userRef.getPath();
+        }
+        return null; // Handle the case where docRef is null
+    }
+
+    private String doctorPathToString(DocumentReference docRef) {
+        if (docRef != null) {
+            return docRef.getPath();
+        }
+        return null; // Handle the case where docRef is null
+    }
+
+
+    private DocumentReference convertStringToDocumentReference(String path) {
+        if (path != null) {
+            return FirebaseFirestore.getInstance().document(path);
+        }
+        return null; // Handle the case where path is null
+    }
 
 }
