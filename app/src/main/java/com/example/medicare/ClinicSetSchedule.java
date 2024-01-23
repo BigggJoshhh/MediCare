@@ -12,6 +12,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import classes.Appointment;
+
 
 public class ClinicSetSchedule extends AppCompatActivity{
     Appointment appointment;
@@ -23,7 +25,7 @@ public class ClinicSetSchedule extends AppCompatActivity{
         setContentView(R.layout.activity_clinic_set_schedule);
         appointment = getIntent().getParcelableExtra("APPOINTMENT_EXTRA");
         db = FirebaseFirestore.getInstance();
-        db.collection("appointment").whereEqualTo("doctor", appointment.getDoctorPath()).whereEqualTo("clinic", appointment.getClinicPath()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("appointment").whereEqualTo("doctor", appointment.getDoctor()).whereEqualTo("clinic", appointment.getClinic()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {

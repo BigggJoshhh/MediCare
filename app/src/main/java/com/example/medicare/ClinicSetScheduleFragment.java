@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import classes.Appointment;
+
 public class ClinicSetScheduleFragment extends Fragment {
 
     public ClinicSetScheduleFragment(ArrayList<Appointment> arrayList){
