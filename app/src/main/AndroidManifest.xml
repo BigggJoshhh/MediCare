@@ -17,6 +17,15 @@
         android:theme="@style/Theme.MediCare"
         tools:targetApi="34">
         <activity
+            android:name=".ClinicSetSchedule"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ClinicActivity"
             android:exported="false" />
         <activity
@@ -30,28 +39,18 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".HomeActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Register" />
         <activity android:name=".Login" />
         <activity
             android:name=".AppointmentFragment"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity android:name=".ViewAppointment" />
-        <activity
-            android:name=".DoctorAppointment"
-            android:exported="true" />
-        <activity
-            android:name=".DoctorSchedule"
-            android:exported="true" />
     </application>
 
 </manifest>

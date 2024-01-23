@@ -59,7 +59,7 @@ public class ClinicTab extends Fragment implements AppointmentAdapter.OnAppointm
 
     @Override
     public void onAppointmentClick(Appointment appointment) {
-        Intent intent = new Intent(getActivity(), ViewAppointment.class);
+        Intent intent = new Intent(getActivity(), ClinicSetSchedule.class);
         // Assuming Appointment class implements Parcelable or Serializable
         intent.putExtra("APPOINTMENT_EXTRA", appointment);
         startActivity(intent);
