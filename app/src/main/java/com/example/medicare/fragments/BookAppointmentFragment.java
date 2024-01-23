@@ -1,17 +1,23 @@
 package com.example.medicare.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.medicare.BookAppointment;
+import com.example.medicare.MainActivity;
 import com.example.medicare.R;
 
 import java.util.ArrayList;
@@ -20,12 +26,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import methods.DialogUtility;
+
 public class BookAppointmentFragment extends Fragment {
 
     private Spinner servicesSpinner;
     private Spinner doctorsSpinner;
     private ArrayAdapter<String> servicesAdapter;
     private ArrayAdapter<String> doctorsAdapter;
+
+    private Button cancelButton;
 
     private final Map<String, List<String>> servicesToDoctorsMap = new HashMap<String, List<String>>() {{
         put("Medical Consultation", Arrays.asList("Dr. Octopus", "Dr. Strange"));
@@ -46,6 +56,7 @@ public class BookAppointmentFragment extends Fragment {
 
         servicesSpinner = view.findViewById(R.id.spinner_services);
         doctorsSpinner = view.findViewById(R.id.spinner_doctors);
+        cancelButton = view.findViewById(R.id.button_cancel);
 
         // Create an ArrayAdapter for services
         servicesAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, new ArrayList<>(servicesToDoctorsMap.keySet()));
@@ -69,6 +80,12 @@ public class BookAppointmentFragment extends Fragment {
         // Initial setup for doctors spinner with the first service
         updateDoctorsSpinner(servicesAdapter.getItem(0));
 
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtility.showAlertDialog(requireContext(), "Appointment Cancel", "Are you sure you want to cancel the process?", MainActivity.class);
+            }
+        });
 
         view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +113,5 @@ public class BookAppointmentFragment extends Fragment {
         doctorsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         doctorsSpinner.setAdapter(doctorsAdapter);
     }
-
-
 
 }

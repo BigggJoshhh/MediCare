@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.medicare.BookAppointment;
 import com.example.medicare.R;
 import com.example.medicare.fragments.SuccessFragment;
 
@@ -19,8 +20,7 @@ public class ConfirmAppointmentFragment extends Fragment {
     private static final String ARG_DOCTOR = "doctor";
 
     // Variables to store passed arguments
-    private String selectedService;
-    private String selectedDoctor;
+    private String selectedService,selectedDoctor;
 
     // Factory method to create a new instance of ConfirmAppointmentFragment with provided data
     public static ConfirmAppointmentFragment newInstance(String service, String doctor) {
@@ -60,6 +60,11 @@ public class ConfirmAppointmentFragment extends Fragment {
             public void onClick(View v) {
                 // Go to the success page fragment
                 SuccessFragment successFragment = new SuccessFragment();
+
+                Bundle args = new Bundle();
+                args.putString("service", selectedService);
+                args.putString("doctor", selectedDoctor);
+                ((BookAppointment) getActivity()).loadNextFragment(ConfirmAppointmentFragment.class, args);
 
                 // Replace the current fragment with the success fragment
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();

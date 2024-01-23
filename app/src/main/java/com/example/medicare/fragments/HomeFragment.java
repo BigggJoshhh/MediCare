@@ -3,20 +3,33 @@ package com.example.medicare.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.medicare.HomeActivity;
 import com.example.medicare.R;
-import com.example.medicare.Settings;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import classes.User;
 
@@ -40,6 +53,7 @@ public class HomeFragment extends Fragment {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
 
+    private RecyclerView recyclerView;
     TextView username_tv;
     View profile;
 
@@ -92,14 +106,7 @@ public class HomeFragment extends Fragment {
         String username = currentUser.getDisplayName();
         username_tv.setText(username);
 
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Settings.class);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
+
 
         // Set a click listener on the logout button
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -117,4 +124,6 @@ public class HomeFragment extends Fragment {
         });
         return view;
     }
+
+
 }

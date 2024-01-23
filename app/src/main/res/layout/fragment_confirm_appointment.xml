@@ -1,28 +1,207 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/homepage"
     android:padding="16dp">
 
+
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirm Appointment"
-        android:textSize="24sp"
+        android:id="@+id/textView4"
+        android:layout_width="225dp"
+        android:layout_height="37dp"
         android:layout_gravity="center_horizontal"
-        android:padding="16dp"/>
+        android:layout_marginTop="184dp"
+        android:text="Confirm Appointment"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.103"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Placeholder for dynamic confirmation details -->
-    <!-- You should add Views here programmatically based on the selected service and doctor -->
+    <TextView
+        android:id="@+id/selectedLocation"
+        android:layout_width="125dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:padding="16dp"
+        android:text="@string/location"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-    <!-- Confirm Button -->
+
+    <TextView
+        android:id="@+id/selectedService"
+        android:layout_width="125dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:padding="16dp"
+        android:text="@string/service"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedLocation" />
+
+    <TextView
+        android:id="@+id/selectedDate"
+        android:layout_width="125dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"
+        android:text="@string/date"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedDoctor" />
+
+    <TextView
+        android:id="@+id/selectedTime"
+        android:layout_width="125dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:padding="16dp"
+        android:text="@string/time"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedDate" />
+
+    <TextView
+        android:id="@+id/selectedTimeView"
+        android:layout_width="185dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="12dp"
+        android:padding="16dp"
+        android:text="test"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedDateView" />
+
+    <TextView
+        android:id="@+id/selectedDateView"
+        android:layout_width="185dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="12dp"
+        android:padding="16dp"
+        android:text="test"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedDoctorView" />
+
+    <TextView
+        android:id="@+id/selectedLocationView"
+        android:layout_width="185dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="12dp"
+        android:padding="16dp"
+        android:text="test"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/selectedServiceView"
+        android:layout_width="185dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="12dp"
+        android:padding="16dp"
+        android:text="test"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedLocationView" />
+
+    <TextView
+        android:id="@+id/selectedDoctor"
+        android:layout_width="125dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:padding="16dp"
+        android:text="@string/doctor"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedService" />
+
+    <TextView
+        android:id="@+id/selectedDoctorView"
+        android:layout_width="185dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="12dp"
+        android:padding="16dp"
+        android:text="test"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedServiceView" />
+
+    <TextView
+        android:id="@+id/others"
+        android:layout_width="125dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:padding="16dp"
+        android:text="@string/others"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedTime" />
+
+    <TextView
+        android:id="@+id/othersView"
+        android:layout_width="185dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="12dp"
+        android:padding="16dp"
+        android:text="test"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedTimeView" />
+
     <Button
         android:id="@+id/button_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirm"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/green_30"
-        android:layout_marginTop="24dp"
-        android:textColor="@android:color/white"/>
+        android:text="Confirm"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:text="Book Appointment"
+        android:textFontWeight="5"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.123"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

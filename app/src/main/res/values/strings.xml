@@ -42,5 +42,12 @@
     <string name="home">Home</string>
     <string name="appointment">Appointment</string>
     <string name="settings">Settings</string>
+    <string name="book_appointment">Book Appointment</string>
+    <string name="doctor">Doctor</string>
+    <string name="service">Service</string>
+    <string name="location">Location</string>
+    <string name="date">Date\n</string>
+    <string name="time">Time</string>
+    <string name="others">Others</string>
 
 </resources>
