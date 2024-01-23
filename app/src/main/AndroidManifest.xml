@@ -43,14 +43,11 @@
         <activity
             android:name=".HomeActivity"
             android:exported="true">
-
+        </activity>
+        <activity android:name=".BookAppointment" android:exported="true" >
         </activity>
         <activity android:name=".Register" />
         <activity android:name=".Login" />
-        <activity
-            android:name=".AppointmentFragment"
-            android:exported="true" />
-        <activity android:name=".ViewAppointment" />
     </application>
 
 </manifest>
