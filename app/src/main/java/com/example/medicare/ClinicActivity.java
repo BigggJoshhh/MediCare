@@ -11,6 +11,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -21,7 +25,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.ArrayList;
-
 import classes.Appointment;
 
 public class ClinicActivity extends AppCompatActivity {
@@ -29,6 +32,8 @@ public class ClinicActivity extends AppCompatActivity {
     ArrayList<Appointment> requestedAppointments = new ArrayList<>();
     ArrayList<Appointment> scheduledAppointments = new ArrayList<>();
     ArrayList<Appointment> cancelledAppointments = new ArrayList<>();
+    DocumentReference clinicRef;
+    FirebaseFirestore db;
 
 
     @Override
@@ -51,11 +56,34 @@ public class ClinicActivity extends AppCompatActivity {
     }
 
     protected void getDBData(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("appointment").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+        db.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        clinicRef = document.getDocumentReference("clinic");
+                        fetchAppointments(clinicRef);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Get Clinic Failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Get Clinic Failed.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void fetchAppointments (DocumentReference clinicRef) {
+        db.collection("appointment").whereEqualTo("clinic", clinicRef).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    Log.d("Debug", Integer.toString(task.getResult().size()));
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Appointment tempAppointment = document.toObject(Appointment.class);
                         tempAppointment.setAppointmentId(document.getId());

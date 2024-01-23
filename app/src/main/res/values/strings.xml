@@ -16,6 +16,7 @@
     <string name="clinic_scheduled">Scheduled</string>
     <string name="clinic_cancelled">Cancelled</string>
     <string name="clinic_header">Clinic</string>
+    <string name="clinic_schedule">Schedule an appointment</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="new_appointment">Make New Appointment</string>
     <string name="medical_consultation">Medical Consultation</string>

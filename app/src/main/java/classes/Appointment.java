@@ -12,17 +12,27 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Appointment implements Parcelable {
+
+    private String appointmentId;
     private DocumentReference user;
     private DocumentReference doctor;
+    private DocumentReference clinic;
     private String service ;
     private String others;
     private String status;
     private Timestamp datetime;
     private String location;
 
-    public Appointment(DocumentReference user, DocumentReference doctor, String service, String others, String status, Timestamp datetime, String location) {
+
+
+
+    public Appointment() {
+    }
+    public Appointment(String appointmentId, DocumentReference user, DocumentReference doctor, DocumentReference clinic, String service, String others, String status, Timestamp datetime, String location) {
+        this.appointmentId = appointmentId;
         this.user = user;
         this.doctor = doctor;
+        this.clinic = clinic;
         this.service = service;
         this.others = others;
         this.status = status;
@@ -30,29 +40,42 @@ public class Appointment implements Parcelable {
         this.location = location;
     }
 
-    public Appointment() {
+    public String getAppointmentId() {
+        return appointmentId;
+    }
+
+    public void setAppointmentId(String appointmentId) {
+        this.appointmentId = appointmentId;
     }
 
     public DocumentReference getUser() {
         return user;
-
     }
 
     public void setUser(DocumentReference user) {
-         this.user = user;
+        this.user = user;
     }
 
     public DocumentReference getDoctor() {
-            return doctor;
+        return doctor;
     }
 
     public void setDoctor(DocumentReference doctor) {
         this.doctor = doctor;
     }
 
+    public DocumentReference getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(DocumentReference clinic) {
+        this.clinic = clinic;
+    }
+
     public String getService() {
         return service;
     }
+
     public void setService(String service) {
         this.service = service;
     }
@@ -60,18 +83,27 @@ public class Appointment implements Parcelable {
     public String getOthers() {
         return others;
     }
+
     public void setOthers(String others) {
         this.others = others;
     }
-    public String getStatus() { return status;}
-    public void setStatus(String status) { this.status = status; }
 
-    public Timestamp getDateTime() {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Timestamp getDatetime() {
         return datetime;
     }
-    public void setDateTime(Timestamp datetime) {
+
+    public void setDatetime(Timestamp datetime) {
         this.datetime = datetime;
     }
+
     public String getLocation() {
         return location;
     }
