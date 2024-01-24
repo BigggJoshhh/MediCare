@@ -1,38 +1,44 @@
-package com.example.medicare;
+package classes;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class Appointment implements Parcelable {
+
     private String appointmentId;
-    private String userPath;
-    private String doctorPath;
+    private DocumentReference user;
+    private DocumentReference doctor;
+    private DocumentReference clinic;
     private String service ;
     private String others;
     private String status;
     private Timestamp datetime;
     private String location;
 
-    public Appointment(String appointmentId, String userPath, String doctorPath, String service, String others, String status, Timestamp datetime, String location) {
+
+
+
+    public Appointment() {
+    }
+    public Appointment(String appointmentId, DocumentReference user, DocumentReference doctor, DocumentReference clinic, String service, String others, String status, Timestamp datetime, String location) {
         this.appointmentId = appointmentId;
-        this.userPath = userPath;
-        this.doctorPath = doctorPath;
+        this.user = user;
+        this.doctor = doctor;
+        this.clinic = clinic;
         this.service = service;
         this.others = others;
         this.status = status;
         this.datetime = datetime;
         this.location = location;
-    }
-
-    public Appointment() {
     }
 
     public String getAppointmentId() {
@@ -43,25 +49,34 @@ public class Appointment implements Parcelable {
         this.appointmentId = appointmentId;
     }
 
-    public String getUserPath() {
-        return userPath;
+    public DocumentReference getUser() {
+        return user;
     }
 
-    public String setUserPath(String userPath) {
-        return this.userPath = userPath;
+    public void setUser(DocumentReference user) {
+        this.user = user;
     }
 
-    public String getDoctorPath() {
-        return doctorPath;
+    public DocumentReference getDoctor() {
+        return doctor;
     }
 
-    public String setDoctorPath(String doctorPath) {
-        return this.doctorPath = doctorPath;
+    public void setDoctor(DocumentReference doctor) {
+        this.doctor = doctor;
+    }
+
+    public DocumentReference getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(DocumentReference clinic) {
+        this.clinic = clinic;
     }
 
     public String getService() {
         return service;
     }
+
     public void setService(String service) {
         this.service = service;
     }
@@ -69,18 +84,27 @@ public class Appointment implements Parcelable {
     public String getOthers() {
         return others;
     }
+
     public void setOthers(String others) {
         this.others = others;
     }
-    public String getStatus() { return status;}
-    public void setStatus(String status) { this.status = status; }
 
-    public Timestamp getDateTime() {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Timestamp getDatetime() {
         return datetime;
     }
-    public void setDateTime(Timestamp datetime) {
+
+    public void setDatetime(Timestamp datetime) {
         this.datetime = datetime;
     }
+
     public String getLocation() {
         return location;
     }
@@ -93,7 +117,8 @@ public class Appointment implements Parcelable {
         if (datetime != null) {
             Date date = datetime.toDate(); // Convert Timestamp to Date
             // Define the format you want. For example: "dd MMM yyyy"
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
             return sdf.format(date);
         }
         return "";
@@ -104,6 +129,7 @@ public class Appointment implements Parcelable {
             Date date = datetime.toDate(); // Convert Timestamp to Date
             // Define the format you want. For example: "hh:mm a"
             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
             return sdf.format(date);
         }
         return "";
@@ -111,8 +137,16 @@ public class Appointment implements Parcelable {
 
     // Parcelable implementation
     protected Appointment(Parcel in) {
-        userPath = in.readString();
-        doctorPath = in.readString();
+        // Read the userPath and doctorPath as strings
+        String userPathString = in.readString();
+        String doctorPathString = in.readString();
+        String clinicPathString = in.readString();
+
+        // Convert the strings back to DocumentReference
+        user = convertStringToDocumentReference(userPathString);
+        doctor = convertStringToDocumentReference(doctorPathString);
+        clinic = convertStringToDocumentReference(clinicPathString);
+        appointmentId = in.readString();
         service = in.readString();
         others = in.readString();
         status = in.readString();
@@ -122,8 +156,11 @@ public class Appointment implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(userPath);
-        dest.writeString(doctorPath);
+        // Write the userPath and doctorPath as strings
+        dest.writeString(userPathToString(user));
+        dest.writeString(doctorPathToString(doctor));
+        dest.writeString(clinicPathToString(clinic));
+        dest.writeString(appointmentId);
         dest.writeString(service);
         dest.writeString(others);
         dest.writeString(status);
@@ -151,5 +188,34 @@ public class Appointment implements Parcelable {
             return new Appointment[size];
         }
     };
+
+    private String userPathToString(DocumentReference userRef) {
+        if (userRef != null) {
+            return userRef.getPath();
+        }
+        return null; // Handle the case where docRef is null
+    }
+
+    private String doctorPathToString(DocumentReference docRef) {
+        if (docRef != null) {
+            return docRef.getPath();
+        }
+        return null; // Handle the case where docRef is null
+    }
+
+    private String clinicPathToString(DocumentReference clinicRef) {
+        if (clinicRef != null) {
+            return clinicRef.getPath();
+        }
+        return null; // Handle the case where docRef is null
+    }
+
+
+    private DocumentReference convertStringToDocumentReference(String path) {
+        if (path != null) {
+            return FirebaseFirestore.getInstance().document(path);
+        }
+        return null; // Handle the case where path is null
+    }
 
 }

@@ -3,6 +3,7 @@ package com.example.medicare.fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -10,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.medicare.Appointment;
+import classes.Appointment;
 import com.example.medicare.MainFragment;
 import com.example.medicare.R;
 import com.google.android.material.tabs.TabLayout;
@@ -41,10 +42,20 @@ public class AppointmentFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
 
-        fetchAppointmentsFromFirestore();
-
         return view;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        tabLayout = view.findViewById(R.id.tab_layout);
+        viewPager = view.findViewById(R.id.view_pager);
+
+        // Move the fetchAppointmentsFromFirestore call here
+        fetchAppointmentsFromFirestore();
+    }
+
+
     private void setupViewPager(ArrayList<Appointment> upcomingAppointments,
                                ArrayList<Appointment> missedAppointments,
                                ArrayList<Appointment> openAppointments) {

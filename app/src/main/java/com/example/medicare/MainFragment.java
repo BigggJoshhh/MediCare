@@ -7,13 +7,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import classes.Appointment;
 
 public class MainFragment extends Fragment implements AppointmentAdapter.OnAppointmentClickListener {
     // Initialize variable
@@ -56,6 +57,12 @@ public class MainFragment extends Fragment implements AppointmentAdapter.OnAppoi
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    public void onResume() {
+        super.onResume();
+        adapter = new AppointmentAdapter(appointmentList, this);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

@@ -2,19 +2,21 @@ package com.example.medicare;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClinicTab extends Fragment implements AppointmentAdapter.OnAppointmentClickListener  {
+import classes.Appointment;
+
+public class ClinicTab extends Fragment implements AppointmentAdapter.OnAppointmentClickListener {
 
     RecyclerView recyclerView;
     AppointmentAdapter adapter;
@@ -58,8 +60,22 @@ public class ClinicTab extends Fragment implements AppointmentAdapter.OnAppointm
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        if (getArguments() != null) {
+            appointmentList = getArguments().getParcelableArrayList("appointments");
+        }
+        if (appointmentList == null) { // If no arguments, initialize an empty list
+            appointmentList = new ArrayList<>();
+        }
+        adapter = new AppointmentAdapter(appointmentList, this);
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
     public void onAppointmentClick(Appointment appointment) {
-        Intent intent = new Intent(getActivity(), ViewAppointment.class);
+        Intent intent = new Intent(getActivity(), ClinicSetSchedule.class);
         // Assuming Appointment class implements Parcelable or Serializable
         intent.putExtra("APPOINTMENT_EXTRA", appointment);
         startActivity(intent);
