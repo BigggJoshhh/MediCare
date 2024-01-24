@@ -55,7 +55,7 @@ public class ConfirmAppointmentFragment extends Fragment {
         // Setup the views with the confirmation details using selectedService and selectedDoctor
 
         // Find the "Confirm" button and set its click listener
-        view.findViewById(R.id.btnConfirm).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.button_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Go to the success page fragment

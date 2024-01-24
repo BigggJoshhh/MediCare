@@ -49,4 +49,9 @@
     <string name="appointment_details">Appointment Details</string>
     <string name="patient">Patient: </string>
     <string name="schedule">Schedule</string>
+    <string name="book_appointment">Book Appointment</string>
+    <string name="date">Date\n</string>
+    <string name="time">Time\n</string>
+    <string name="others">Others\n</string>
+    <string name="location">Location</string>
 </resources>
